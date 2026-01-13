@@ -8,11 +8,13 @@ Exemplo de uso da ferramenta APIsec MCP Discovery and Audit em um pipeline do Az
 ## Results -- Resultados
 
 Execução do pipeline:
+
 *Pipeline execution:*
 
 ![Pipeline](img/mcp-01.png)
 
 Relatório Markdown:
+
 *Markdown report:*
 
 ![Markfown](img/mcp-02.png)
