@@ -3,6 +3,8 @@ Exemplo de uso da ferramenta APIsec MCP Discovery and Audit em um pipeline do Az
 
 *Example of using the APIsec MCP Discovery and Audit tool in an Azure DevOps pipeline. Tests performed with various types of MCP Servers (Microsoft Learn, GitHub, Kubernetes - npm package, fake data generator - Docker image).*
 
+APIsec MCP Discovery and Audit: https://apisec-inc.github.io/mcp-audit/
+
 ---
 
 ## Results -- Resultados
