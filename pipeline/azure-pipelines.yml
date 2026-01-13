@@ -15,24 +15,24 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - script: |
-        echo 'Baixando mcp-audit-cli...'
+        echo 'Downloading mcp-audit-cli... -- Baixando mcp-audit-cli...'
         curl -L -o mcp-audit-cli.zip $(urlZipCliTool)
       displayName: 'Download mcp-audit-cli -- Baixando mcp-audit-cli'
     - script: |
-        echo 'Descompactando mcp-audit-cli...'
+        echo 'Unzipping mcp-audit-cli... -- Descompactando mcp-audit-cli...'
         unzip mcp-audit-cli.zip -d .
       displayName: 'Decompress mcp-audit-cli -- Descompactar mcp-audit-cli'
     - script: |
-        echo 'Criando README.md...'
+        echo 'Creating a README.md (workaround)... -- Criando README.md (workaround)...'
         cd mcp-audit-cli
         echo "# MCP Audit CLI" > README.md
-      displayName: 'Create README.md -- Criar README.md'
+      displayName: 'Create README.md (workaround) -- Criar README.md (workaround)'
     - script: |
         cd mcp-audit-cli
         ls -l
       displayName: 'List mcp-audit-cli files -- Listar arquivos mcp-audit-cli'
     - script: |
-        echo 'Instalando mcp-audit-cli...'
+        echo 'Installing mcp-audit-cli... -- Instalando mcp-audit-cli...'
         cd mcp-audit-cli
         pip install -e .
       displayName: 'Install mcp-audit-cli -- Instalar mcp-audit-cli'
@@ -43,14 +43,14 @@ stages:
         mcp-audit scan --help
       displayName: 'Display the options for the mcp-audit scan command -- Exibir o opcoes do comando mcp-audit scan'
     - script: |
-        echo '** Diretorio atual:'
+        echo '** Current directory -- Diretorio atual:'
         pwd
         echo
         echo
         mcp-audit scan --path . --verbose
       displayName: 'Execute scan (stdout) -- Executar scan (stdout)'
     - script: |
-        echo '** Diretorio atual:'
+        echo '** Current directory -- Diretorio atual:'
         pwd
         echo
         echo
@@ -58,7 +58,7 @@ stages:
       displayName: 'Execute scan (Markdown) -- Executar scan (Markdown)'
     - script: |
         ls -l
-      displayName: 'Exibir arquivos apos analise'
+      displayName: 'Display files after analysis -- Exibir arquivos apos analise'
     - task: PublishMarkdownReports@1
       inputs:
         contentPath: '$(Build.SourcesDirectory)'
