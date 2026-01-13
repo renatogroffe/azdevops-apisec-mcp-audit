@@ -1,0 +1,66 @@
+trigger:
+- main
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  urlZipCliTool: 'https://apisec-inc.github.io/mcp-audit/mcp-audit-cli.zip'
+
+stages:
+- stage: McpScanning
+  displayName: Mcp Scanning stage
+  jobs:
+  - job: McpScanning
+    displayName: Mcp Scanning
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - script: |
+        echo 'Baixando mcp-audit-cli...'
+        curl -L -o mcp-audit-cli.zip $(urlZipCliTool)
+      displayName: 'Download mcp-audit-cli -- Baixando mcp-audit-cli'
+    - script: |
+        echo 'Descompactando mcp-audit-cli...'
+        unzip mcp-audit-cli.zip -d .
+      displayName: 'Decompress mcp-audit-cli -- Descompactar mcp-audit-cli'
+    - script: |
+        echo 'Criando README.md...'
+        cd mcp-audit-cli
+        echo "# MCP Audit CLI" > README.md
+      displayName: 'Create README.md -- Criar README.md'
+    - script: |
+        cd mcp-audit-cli
+        ls -l
+      displayName: 'List mcp-audit-cli files -- Listar arquivos mcp-audit-cli'
+    - script: |
+        echo 'Instalando mcp-audit-cli...'
+        cd mcp-audit-cli
+        pip install -e .
+      displayName: 'Install mcp-audit-cli -- Instalar mcp-audit-cli'
+    - script: |
+        mcp-audit --help
+      displayName: 'Test the mcp-audit utility -- Testar o utilitario mcp-audit'
+    - script: |
+        mcp-audit scan --help
+      displayName: 'Display the options for the mcp-audit scan command -- Exibir o opcoes do comando mcp-audit scan'
+    - script: |
+        echo '** Diretorio atual:'
+        pwd
+        echo
+        echo
+        mcp-audit scan --path . --verbose
+      displayName: 'Execute scan (stdout) -- Executar scan (stdout)'
+    - script: |
+        echo '** Diretorio atual:'
+        pwd
+        echo
+        echo
+        mcp-audit scan --path . --format markdown --output mcp-analysis.md --verbose
+      displayName: 'Execute scan (Markdown) -- Executar scan (Markdown)'
+    - script: |
+        ls -l
+      displayName: 'Exibir arquivos apos analise'
+    - task: PublishMarkdownReports@1
+      inputs:
+        contentPath: '$(Build.SourcesDirectory)'
+        indexFile: 'mcp-analysis.md'
+      displayName: Publication of Markdown report -- Publicacao de relatorio Markdown
